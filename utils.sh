@@ -32,7 +32,7 @@ check_error() {
 
     # TODO: optional carry on or exit immediately
     # TODO: possibly pass in clean up functions?
-    status_code=$?
+    local status_code=$?
 
     if [ ${status_code} -ne 0 ]; then
         echo "status code = ${status_code} message: ${1}"
@@ -40,4 +40,25 @@ check_error() {
     fi
 }
 
+goto_script_dir() {
+    # 1. Store current working directory
+    # 2. Get absolute path of the running script
+    # 3. Change to that directory so you're running from a known location
+    # 4. Return initial working directory so you can return back to it
+    # NOTE: Perl usage to be more consistent across Mac / Linux
+    # Usage example:
+    # goto_script_dir variable_to_store_pwd
+    # <do things>
+    # cd ${variable_to_store_pwd}
+
+    local resultvar=$1
+    local current=$PWD
+    echo "storing current working dir: ${current}"
+
+    local script_abs_path=`perl -e 'use Cwd "abs_path";print abs_path(shift)' $0`
+    local script_dir=`dirname ${script_abs_path}`
+    echo "script dir: ${script_dir}"
+
+    eval $resultvar="${current}"
+}
 

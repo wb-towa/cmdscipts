@@ -50,8 +50,13 @@ goto_script_dir() {
     # goto_script_dir variable_to_store_pwd
     # <do things>
     # cd ${variable_to_store_pwd}
+    #
+    # goto_script_dir mycurrent myscript_abspath
+    # <do things>/with/myscript_abspath
+    # cd ${variable_to_store_pwd}
 
     local resultvar=$1
+    local abs_base=$2
     local current=$PWD
     echo "storing current working dir: ${current}"
 
@@ -60,5 +65,10 @@ goto_script_dir() {
     echo "script dir: ${script_dir}"
 
     eval $resultvar="${current}"
+    # 2nd param provided so provide the abs path
+    if [[ ! -z "${abs_base}" ]]; then
+        echo "passing: ${script_dir} out to variable"
+        eval $abs_base="${script_dir}"
+    fi
 }
 

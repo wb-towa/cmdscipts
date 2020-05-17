@@ -72,3 +72,35 @@ goto_script_dir() {
     fi
 }
 
+remove_ext() {
+    # remove extention from filename
+    #
+    # Usage example:
+    # myvar="text.txt"
+    # remove_ext myvar outvar
+    # echo "${outvar}.html" (text.html)
+
+    local invar=$1
+    local outvar=$2
+
+    if [[ ! -z "${outvar}" ]]; then
+        eval $outvar="${invar%.*}"
+    fi
+}
+
+get_ext() {
+    # get extention from filename
+    #
+    # Usage example:
+    # myvar="text.txt"
+    # get_ext myvar outvar
+    # echo "${outvar}" (txt)
+
+    local invar=$1
+    local outvar=$2
+
+    if [[ ! -z "${outvar}" ]]; then
+        eval $outvar="${invar##*.}"
+    fi
+}
+
